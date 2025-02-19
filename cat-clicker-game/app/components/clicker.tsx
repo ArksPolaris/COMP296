@@ -24,6 +24,18 @@ function donation() {
 
 export default function Clicker() {
     return (
-        addEventListener("click", click)
+        <button 
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            onClick={click}
+        >
+            <img
+                className="dark:invert"
+                src="/petbowl.svg"
+                alt="Petbowl graphic"
+                width={20}
+                height={20}
+            />
+            Star
+        </button>
     )
 }
