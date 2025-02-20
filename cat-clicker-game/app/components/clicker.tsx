@@ -6,9 +6,9 @@ var clicks = 0;
 
 function click() {
     clicks = clicks + 1;
-    if (clicks%25 == 0) donation();
+    if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donation();
     addfunds(1);
-    
+    updateDisplay();
 }
 
 function donation() {
@@ -38,4 +38,11 @@ export default function Clicker() {
             Star
         </button>
     )
+}
+
+export function updateDisplay() {
+    var click = document.getElementById("click");
+    if (click != null) {
+        click.innerHTML = "Clicks: " + clicks;
+    }
 }
