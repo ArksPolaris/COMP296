@@ -1,14 +1,18 @@
 "use client";
 
-import { addfunds, donation } from "./balance";
-
+import { funds, donation } from "./balance";
+import { clickPower as power } from "./upgrade";
 var clicks = 0;
 
 function click() {
     clicks = clicks + 1;
     if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donation();
-    addfunds(1);
+    funds(power);
     updateDisplay();
+}
+
+export function clickCat() {
+    funds(1);
 }
 
 export default function Clicker() {

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Modal from 'react-modal';
+import { Food, Cat } from "./upgrade";
 
 const Navbar = () => {
 
@@ -24,6 +25,8 @@ const Navbar = () => {
             <button onClick={closeModal}>Close</button>
           </div>
           <p>This is the cat-alog pop-up!</p>
+          <Food />
+          <Cat />
         </Modal>
 
         <Modal isOpen={isModal === "settings"} onRequestClose={closeModal} ariaHideApp={false}
