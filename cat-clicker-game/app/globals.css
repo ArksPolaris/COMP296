@@ -36,3 +36,40 @@ body {
   border: 1px solid var(--foreground);
   border-radius: 5px;
 }
+
+button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pulsate {
+  -webkit-animation: pulsate .5s ease-out;
+  animation: pulsate .5s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  opacity: 0.0;
+  }
+
+@keyframes pulsate {
+    0% { 
+        opacity: 0.0;
+    }
+    50% { 
+        opacity: 1.0;
+    }
+    100% { 
+        opacity: 0.0;
+    }
+  }
+
+@-webkit-keyframes pulsate {
+  0% { 
+      opacity: 0.0;
+  }
+  50% { 
+      opacity: 1.0;
+  }
+  100% { 
+      opacity: 0.0;
+  }
+}

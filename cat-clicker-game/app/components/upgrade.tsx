@@ -1,29 +1,49 @@
 import { balance as bal, funds } from "./balance";
-import { clickCat } from "./clicker";
+import { clickUtil } from "./clicker";
+import { displayMessage } from "./console";
 export var clickPower = 1;
-var fCost = 25;
-var cCost = 100;
-let catIDs = [];
+export var fCost = 25;
+export var cCost = 100;
+export var sCost = 500;
+var catIds: number[] = [];
+export var shelters = 0;
+
+export { catIds, makeCat };
 
 function upgradeClicks() {
     if (bal >= fCost) {
         funds(-fCost);
+        fCost=Math.floor(fCost*1.1)+5;
         clickPower = clickPower + 1;
         updateDisplay("power");
-        fCost+=1;
+        displayMessage("You purchased better food for the cats! (Power: " + clickPower + ")");
     }
 }
 
 function makeCat() {
     if (bal >= cCost) {
         funds(-cCost);
-        cCost+=5;
+        cCost=Math.floor(cCost*1.1)+5;
         const intID = setInterval(() => {
-            clickCat();
-        }, 1000);
+            clickUtil(1);
+        }, 1000) as unknown as number;
 
-        catIDs.push(intID);
+        catIds.push(intID);
         updateDisplay("catHelp");
+        displayMessage("One of the cats has decided to help you for extra treats! (Cats: " + catIds.length + ")");
+    }
+}
+
+function makeShelter() {
+    if (bal >= sCost) {
+        funds(-sCost);
+        sCost=Math.floor(sCost*1.1)+25;
+        const intID = setInterval(() => {
+            makeCat();
+        }, 30000);
+        shelters++;
+        updateDisplay("shelterHelp");
+        displayMessage("You collaborated with the locals to create a shelter for the cats! (Shelters: " + shelters + ")");
     }
 }
 export function updateDisplay(val: string) {
@@ -36,20 +56,48 @@ export function updateDisplay(val: string) {
         }
     }
     if (display != null && val === "catHelp") {
-        display.innerHTML = "Cats: " + catIDs.length;
+        display.innerHTML = "Cats: " + catIds.length;
         var Cost = document.getElementById("cCost");
         if (Cost != null) {
-            Cost.innerHTML = "Cat Cost: " + fCost;
+            Cost.innerHTML = "Cat Cost: " + cCost;
+        }
+    }
+    if (display != null && val === "shelters") {
+        display.innerHTML = "Shelters: " + shelters;
+        var Cost = document.getElementById("sCost");
+        if (Cost != null) {
+            Cost.innerHTML = "Shelter Cost: " + sCost;
         }
     }
 }
 
+// WA
+
+export function setClickPower(value: number) {
+                clickPower = value;
+}
+
+export function setFCost(value: number) {
+                fCost = value;
+}
+
+export function setCCost(value: number) {
+                cCost = value;
+}
+
+export function setSCost(value: number) {
+                sCost = value;
+}
+
+
 export function Food() {
     return (
-        <div>
+        <div className="flex items-center">
             <button 
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < fCost ? 'disabled' : ''}`}
             onClick={upgradeClicks}
+            disabled={bal < fCost}
+            title="Better food for your cats. (Increase money made by 1) "
         >
             <img
                 className="dark:invert"
@@ -60,18 +108,22 @@ export function Food() {
             />
             Better Food
         </button>
-        <p id="power">Power: {clickPower}</p>
-        <p id="fCost">Food Cost: {fCost}</p>
+            <div className="flex flex-col ml-4">
+                <p id="power">Power: {clickPower}</p>
+                <p id="fCost">Food Cost: {fCost}</p>
+            </div>
         </div>
     )
 }
 
 export function Cat() {
     return (
-        <div>
+        <div className="flex items-center">
             <button 
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < cCost ? 'disabled' : ''}`}
             onClick={makeCat}
+            disabled={bal < cCost}
+            title="Creates a cat that clicks for you. (1 click per second)"
         >
             <img
                 className="dark:invert"
@@ -82,8 +134,36 @@ export function Cat() {
             />
             Cat Helper
         </button>
-        <p id="catHelp">Cats: {catIDs.length + 1}</p>
-        <p id="cCost">Cat Cost: {cCost}</p>
+            <div className="flex flex-col ml-4">
+                <p id="catHelp">Cats: {catIds.length + 1}</p>
+                <p id="cCost">Cat Cost: {cCost}</p>
+            </div>
+        </div>
+    )
+}
+
+export function Shelter() {
+    return (
+        <div className="flex items-center">
+            <button 
+            className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < sCost ? 'disabled' : ''}`}
+            onClick={makeShelter}
+            disabled={bal < sCost}
+            title="Spawns a cat every 30 seconds."
+        >
+            <img
+                className="dark:invert"
+                src="/github.svg"
+                alt="Test graphic"
+                width={20}
+                height={20}
+            />
+            Cat Helper
+        </button>
+            <div className="flex flex-col ml-4">
+                <p id="shelters">Shelters: {shelters}</p>
+                <p id="sCost">Shelter Cost: {sCost}</p>
+            </div>
         </div>
     )
 }
