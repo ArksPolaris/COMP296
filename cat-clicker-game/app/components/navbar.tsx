@@ -1,14 +1,12 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
-import { Food, Cat, Shelter, catIds, shelters } from "./upgrade";
-import { Auto, Load, Save } from "./save";
+import { Food, Cat, Shelter } from "./upgrade";
+import { Load, Save } from "./save";
 import { Item } from "./minigame";
 import { Stats } from "./stats";
 import { ReadoutsProvider } from "./console";
-import { moneySpent, stickyBalance } from "./balance";
-import { AchievementsProvider } from "./achievementsContext";
 import { AchievementMenu } from "./achievementsMenu";
 
 const Navbar = () => {
