@@ -6,8 +6,9 @@ import { clickPowerUp } from "./powerups";
 export let clicks = 0;
 
 function useClick() {
+    const { donate } = useDonation();
+
     const click = () => {
-        const { donate } = useDonation();
         clicks = clicks + 1;
         if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donate();
         
