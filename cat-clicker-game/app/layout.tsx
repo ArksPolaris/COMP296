@@ -58,7 +58,6 @@ export default function RootLayout({
             {children}
           </AchievementsProvider>
         </ReadoutsProvider>
-       
       </body>
     </html>
   );

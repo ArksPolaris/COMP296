@@ -1,6 +1,7 @@
 import { balance as bal, funds } from "./balance";
 import { clickUtil } from "./clicker";
 import { useReadouts } from "./console";
+
 export let clickPower = 1;
 export let fCost = 25;
 export let cCost = 100;
@@ -19,7 +20,7 @@ function upgradeClicks(displayMessage: (msg: string) => void) {
     if (bal >= fCost) {
         funds(-fCost);
         fCost=Math.floor(fCost*1.1)+5;
-        clickPower = clickPower + 1;
+        setClickPower(clickPower + 1);
         updateDisplay("power");
         displayMessage("You purchased better food for the cats! (Power: " + clickPower + ")");
     }
