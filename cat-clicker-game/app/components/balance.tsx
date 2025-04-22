@@ -14,7 +14,7 @@ export function updateDisplay() {
 export async function donation() {
     const { displayMessage } = useReadouts();
     
-    let random = Math.floor(Math.random() * 100);
+    const random = Math.floor(Math.random() * 100);
     
     if (random > 45) {
         displayMessage("An adopter came by and gave you a donation.");

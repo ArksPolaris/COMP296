@@ -23,13 +23,13 @@ localStorage.setItem("gameState", JSON.stringify(gameState));
 
 }
 
-const save = setInterval(() => {
+setInterval(() => {
     autoSave();
-    }, 120000);
+}, 120000);
 
 function createCats(num: number) {
     for (let i = 0; i < num; i++) {
-        const intID = setInterval(() => {
+        setInterval(() => {
             clickUtil(1);
         }, 1000);
     }
@@ -37,7 +37,7 @@ function createCats(num: number) {
 
 function createShelters(num: number) {
     for (let i = 0; i < num; i++) {
-        const intID = setInterval(() => {
+        setInterval(() => {
             makeCatUtils();
         }, 30000) as unknown as number;
     }

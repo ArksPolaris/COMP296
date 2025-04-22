@@ -14,10 +14,7 @@ class ClickPowerUp {
     public activate() {
         if (!this.active && !this.cooldownActive) {
             this.active = true;
-
-            // Increment click power
-            const pwClickPower = this.originalClickPower * this.clickPowerFactor;
-
+            
             // Set a timer for deactivation
             setTimeout(() => {
                 this.active = false;
