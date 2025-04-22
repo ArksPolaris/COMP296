@@ -4,6 +4,10 @@ import "./globals.css";
 import "./components/navbar";
 import Navbar from "./components/navbar";
 import { ReadoutsProvider } from "./components/console";
+import { Auto } from "./components/save";
+import { AchievementsProvider } from "./components/achievementsContext";
+import { moneySpent, stickyBalance } from "./components/balance";
+import { catIds, shelters } from "./components/upgrade";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,15 +28,35 @@ export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) 
+
+{
+  type Stats = {
+    moneyMade: number;
+    catsOwned: number;
+    sheltersOwned: number;
+    moneySpent: number;
+  };
+
+  const stats: Stats = {
+      moneyMade: stickyBalance,
+      catsOwned: catIds,
+      sheltersOwned: shelters,
+      moneySpent: moneySpent,
+    };
+
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReadoutsProvider>
-           <Navbar />
-          {children}
+          <AchievementsProvider stats={stats}>
+            <Navbar />
+            <Auto />
+            {children}
+          </AchievementsProvider>
         </ReadoutsProvider>
        
       </body>

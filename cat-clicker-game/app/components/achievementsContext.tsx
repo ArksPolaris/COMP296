@@ -1,4 +1,4 @@
-// AchievementsContext.tsx
+'use client';
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export type Stats = {

@@ -18,24 +18,7 @@ const Navbar = () => {
   const openModal = (popName: string) => setIsOpen(popName);
   const closeModal = () => setIsOpen(null);
 
-  type Stats = {
-    moneyMade: number;
-    catsOwned: number;
-    sheltersOwned: number;
-    moneySpent: number;
-  };
-
-  const stats: Stats = useMemo(() => {
-    return {
-      moneyMade: stickyBalance,
-      catsOwned: catIds,
-      sheltersOwned: shelters,
-      moneySpent: moneySpent,
-    };
-  }, [stickyBalance, catIds, shelters, moneySpent]);
-
   return (
-    <AchievementsProvider stats={stats}>
       <div>
         <nav className="flex justify-center gap-4 outline-solid outline-2 outline-foreground">
           <button onClick={() => openModal("cat-alog")}>Cat-alog</button>
@@ -110,7 +93,6 @@ const Navbar = () => {
           <Stats />
         </Modal>
       </div>
-    </AchievementsProvider>
   );
 };
 

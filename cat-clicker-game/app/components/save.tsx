@@ -1,3 +1,4 @@
+'use client';
 import { stickyBalance, balance, funds, moneySpent } from "./balance";
 import { useAchievements } from "./achievementsContext";
 import { clickUtil } from "./clicker";
