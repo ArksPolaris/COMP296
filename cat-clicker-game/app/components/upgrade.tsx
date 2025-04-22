@@ -1,16 +1,21 @@
 import { balance as bal, funds } from "./balance";
 import { clickUtil } from "./clicker";
-import { displayMessage } from "./console";
+import { useReadouts } from "./console";
 export var clickPower = 1;
 export var fCost = 25;
 export var cCost = 100;
 export var sCost = 500;
-var catIds: number[] = [];
+export var catIds = 0;
 export var shelters = 0;
 
-export { catIds, makeCat };
+export function makeCatUtils() {
+    const intID = setInterval(() => {
+        clickUtil(1);
+    }, 1000) as unknown as number;
+    return intID;
+}
 
-function upgradeClicks() {
+function upgradeClicks(displayMessage: (msg: string) => void) {
     if (bal >= fCost) {
         funds(-fCost);
         fCost=Math.floor(fCost*1.1)+5;
@@ -20,26 +25,22 @@ function upgradeClicks() {
     }
 }
 
-function makeCat() {
+function makeCat(displayMessage: (msg: string) => void) {
     if (bal >= cCost) {
         funds(-cCost);
         cCost=Math.floor(cCost*1.1)+5;
-        const intID = setInterval(() => {
-            clickUtil(1);
-        }, 1000) as unknown as number;
-
-        catIds.push(intID);
+        catIds++;
         updateDisplay("catHelp");
-        displayMessage("One of the cats has decided to help you for extra treats! (Cats: " + catIds.length + ")");
+        displayMessage("One of the cats has decided to help you for extra treats! (Cats: " + catIds + ")");
     }
 }
 
-function makeShelter() {
+function makeShelter(displayMessage: (msg: string) => void) {
     if (bal >= sCost) {
         funds(-sCost);
         sCost=Math.floor(sCost*1.1)+25;
         const intID = setInterval(() => {
-            makeCat();
+            makeCatUtils();
         }, 30000);
         shelters++;
         updateDisplay("shelterHelp");
@@ -56,7 +57,7 @@ export function updateDisplay(val: string) {
         }
     }
     if (display != null && val === "catHelp") {
-        display.innerHTML = "Cats: " + catIds.length;
+        display.innerHTML = "Cats: " + catIds;
         var Cost = document.getElementById("cCost");
         if (Cost != null) {
             Cost.innerHTML = "Cat Cost: " + cCost;
@@ -91,11 +92,13 @@ export function setSCost(value: number) {
 
 
 export function Food() {
+    const { displayMessage } = useReadouts();
+
     return (
         <div className="flex items-center">
             <button 
             className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < fCost ? 'disabled' : ''}`}
-            onClick={upgradeClicks}
+            onClick={() => upgradeClicks(displayMessage)}
             disabled={bal < fCost}
             title="Better food for your cats. (Increase money made by 1) "
         >
@@ -117,11 +120,13 @@ export function Food() {
 }
 
 export function Cat() {
+    const { displayMessage } = useReadouts();
+
     return (
         <div className="flex items-center">
             <button 
             className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < cCost ? 'disabled' : ''}`}
-            onClick={makeCat}
+            onClick={() => makeCat(displayMessage)}
             disabled={bal < cCost}
             title="Creates a cat that clicks for you. (1 click per second)"
         >
@@ -135,7 +140,7 @@ export function Cat() {
             Cat Helper
         </button>
             <div className="flex flex-col ml-4">
-                <p id="catHelp">Cats: {catIds.length + 1}</p>
+                <p id="catHelp">Cats: {catIds}</p>
                 <p id="cCost">Cat Cost: {cCost}</p>
             </div>
         </div>
@@ -143,11 +148,13 @@ export function Cat() {
 }
 
 export function Shelter() {
+    const { displayMessage } = useReadouts();
+
     return (
         <div className="flex items-center">
             <button 
             className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${bal < sCost ? 'disabled' : ''}`}
-            onClick={makeShelter}
+            onClick={() => makeShelter(displayMessage)}
             disabled={bal < sCost}
             title="Spawns a cat every 30 seconds."
         >

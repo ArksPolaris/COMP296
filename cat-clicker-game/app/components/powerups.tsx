@@ -2,6 +2,7 @@
 
 import { catIds, clickPower } from "./upgrade";
 import { clickUtil, clicks } from "./clicker";
+import { stickyBalance as sBal } from "./balance";
 
 class ClickPowerUp {
     public active: boolean = false;
@@ -87,7 +88,7 @@ class MegaCat {
 export const clickPowerUp = new ClickPowerUp(clickPower, 2.5);
 export const megaCat = new MegaCat();
 
-export function ClickUp() {
+function ClickUp() {
     return (
         <button 
             className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${clicks < 50 ? 'disabled' : ''}`}
@@ -99,14 +100,32 @@ export function ClickUp() {
     );
 }
 
-export function CatsUp() {
+function CatsUp() {
     return (
         <button
-            className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${catIds.length < 10 ? 'disabled' : ''}`}
+            className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 ${catIds < 10 ? 'disabled' : ''}`}
             onClick={() => megaCat.activate()}
             disabled={megaCat.isCooldownActive()}
         >
         Cat Brigade
         </button>
     )
+}
+
+export function PowerUps() {
+    if (sBal >= 1000)
+        {
+    return (
+        <div className="flex flex-col gap-4 row-start-2">
+          <p>Power-Ups</p>
+          <div className="flex gap-4">
+            <ClickUp />
+            <CatsUp />
+          </div>
+        </div>
+        )
+    }
+    else {
+        return (<p>To unlock this section, make $1000 dollars during your session.</p>)
+    }
 }

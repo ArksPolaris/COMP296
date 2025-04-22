@@ -1,6 +1,8 @@
-import { displayMessage } from "./console";
+import { useReadouts } from "./console";
 
 export var balance = 0 ;
+export var stickyBalance = 0;
+export var moneySpent = 0;
 
 export function updateDisplay() {
     var bal = document.getElementById("bal");
@@ -10,6 +12,8 @@ export function updateDisplay() {
 }
 
 export async function donation() {
+    const { displayMessage } = useReadouts();
+    
     var random = Math.floor(Math.random() * 100);
     
     if (random > 45) {
@@ -23,5 +27,7 @@ export async function donation() {
 
 export function funds(val: number) {
     balance+=val;
+    if (val > 0) {stickyBalance+=val;}
+    if (val < 0) {moneySpent+=Math.abs(val);}
     updateDisplay();
 }
