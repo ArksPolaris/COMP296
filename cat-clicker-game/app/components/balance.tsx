@@ -11,19 +11,22 @@ export function updateDisplay() {
     }
 }
 
-export async function donation() {
+export function useDonation() {
     const { displayMessage } = useReadouts();
-    
-    const random = Math.floor(Math.random() * 100);
-    
-    if (random > 45) {
+  
+    const donate = () => {
+      const random = Math.floor(Math.random() * 100);
+      if (random > 45) {
         displayMessage("An adopter came by and gave you a donation.");
         funds(random);
-    } else {
+      } else {
         displayMessage("Seems like no one came by to adopt a cat, but one of the locals gave a small donation.");
         funds(10);
-    }
-}
+      }
+    };
+  
+    return { donate };
+  }  
 
 export function funds(val: number) {
     balance+=val;

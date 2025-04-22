@@ -1,13 +1,14 @@
 "use client";
 
-import { funds, donation } from "./balance";
+import { funds, useDonation } from "./balance";
 import { clickPower as power } from "./upgrade";
 import { clickPowerUp } from "./powerups";
 export let clicks = 0;
 
 function click() {
+    const { donate } = useDonation();
     clicks = clicks + 1;
-    if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donation();
+    if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donate();
     
     const eClickPower = clickPowerUp.active ? clickPowerUp.clickPowerFactor * power : power;
 

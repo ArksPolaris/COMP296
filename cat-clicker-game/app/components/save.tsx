@@ -3,28 +3,31 @@ import { useAchievements } from "./achievementsContext";
 import { clickUtil } from "./clicker";
 import { clickPower, catIds, shelters, fCost, cCost, sCost, setClickPower, setFCost, setCCost, setSCost, makeCatUtils } from "./upgrade";
 
-function autoSave() {
-    const {unlocked} = useAchievements();
-
-    const gameState = {
-    stickyBalance: stickyBalance,
-    moneySpent: moneySpent,
-    balance: balance,
-    clickPower: clickPower,
-    shelters: shelters,
-    fCost: fCost,
-    cCost: cCost,
-    sCost: sCost,
-    catIds: catIds,
-    unlockedAchievements: Array.from(unlocked),
-};
-
-localStorage.setItem("gameState", JSON.stringify(gameState));
-
+function useAutoSave() {
+    const autoSave = () => {
+        const {unlocked} = useAchievements();
+    
+        const gameState = {
+        stickyBalance: stickyBalance,
+        moneySpent: moneySpent,
+        balance: balance,
+        clickPower: clickPower,
+        shelters: shelters,
+        fCost: fCost,
+        cCost: cCost,
+        sCost: sCost,
+        catIds: catIds,
+        unlockedAchievements: Array.from(unlocked),
+    };
+    
+    localStorage.setItem("gameState", JSON.stringify(gameState));
+    };
+    
+    return { autoSave };
 }
 
 setInterval(() => {
-    autoSave();
+    useAutoSave();
 }, 120000);
 
 function createCats(num: number) {
@@ -132,7 +135,7 @@ export function Load() {
         }
     }
 
-    function handleLoad(event: Event) {
+    function handleLoad() {
         const input = document.createElement("input");
         input.type = "file";
         input.accept = ".json";
@@ -144,7 +147,7 @@ export function Load() {
         <div className="flex items-center">
             <button 
             className={`rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 `}
-            onClick={(event: React.MouseEvent<HTMLButtonElement>) => handleLoad(event as unknown as Event)}
+            onClick={handleLoad}
             title="Load a saved game from file."
         >
             <img
