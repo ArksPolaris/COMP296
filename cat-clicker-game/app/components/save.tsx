@@ -2,10 +2,12 @@ import { stickyBalance, balance, funds, moneySpent } from "./balance";
 import { useAchievements } from "./achievementsContext";
 import { clickUtil } from "./clicker";
 import { clickPower, catIds, shelters, fCost, cCost, sCost, setClickPower, setFCost, setCCost, setSCost, makeCatUtils } from "./upgrade";
+import { useEffect } from "react";
 
 function useAutoSave() {
+    const {unlocked} = useAchievements();
+    
     const autoSave = () => {
-        const {unlocked} = useAchievements();
     
         const gameState = {
         stickyBalance: stickyBalance,
@@ -26,9 +28,21 @@ function useAutoSave() {
     return { autoSave };
 }
 
-setInterval(() => {
-    useAutoSave();
-}, 120000);
+function Auto() {
+    const { autoSave } = useAutoSave();
+  
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        autoSave();
+      }, 120000); // 2 minutes
+  
+      return () => clearInterval(intervalId);
+    }, [autoSave]);
+  
+    return null; 
+  }
+
+Auto();
 
 function createCats(num: number) {
     for (let i = 0; i < num; i++) {
