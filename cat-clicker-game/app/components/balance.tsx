@@ -1,11 +1,11 @@
 import { useReadouts } from "./console";
 
-export var balance = 0 ;
-export var stickyBalance = 0;
-export var moneySpent = 0;
+export let balance = 0 ;
+export let stickyBalance = 0;
+export let moneySpent = 0;
 
 export function updateDisplay() {
-    var bal = document.getElementById("bal");
+    const bal = document.getElementById("bal");
     if (bal != null) {
         bal.innerHTML = "Balance: " + balance;
     }
@@ -14,7 +14,7 @@ export function updateDisplay() {
 export async function donation() {
     const { displayMessage } = useReadouts();
     
-    var random = Math.floor(Math.random() * 100);
+    let random = Math.floor(Math.random() * 100);
     
     if (random > 45) {
         displayMessage("An adopter came by and gave you a donation.");

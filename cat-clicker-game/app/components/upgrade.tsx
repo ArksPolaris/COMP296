@@ -1,12 +1,12 @@
 import { balance as bal, funds } from "./balance";
 import { clickUtil } from "./clicker";
 import { useReadouts } from "./console";
-export var clickPower = 1;
-export var fCost = 25;
-export var cCost = 100;
-export var sCost = 500;
-export var catIds = 0;
-export var shelters = 0;
+export let clickPower = 1;
+export let fCost = 25;
+export let cCost = 100;
+export let sCost = 500;
+export let catIds = 0;
+export let shelters = 0;
 
 export function makeCatUtils() {
     const intID = setInterval(() => {
@@ -39,7 +39,7 @@ function makeShelter(displayMessage: (msg: string) => void) {
     if (bal >= sCost) {
         funds(-sCost);
         sCost=Math.floor(sCost*1.1)+25;
-        const intID = setInterval(() => {
+        setInterval(() => {
             makeCatUtils();
         }, 30000);
         shelters++;
@@ -48,24 +48,24 @@ function makeShelter(displayMessage: (msg: string) => void) {
     }
 }
 export function updateDisplay(val: string) {
-    var display = document.getElementById(val);
+    const display = document.getElementById(val);
     if (display != null && val === "power") {
         display.innerHTML = "Power: " + clickPower;
-        var Cost = document.getElementById("fCost");
+        const Cost = document.getElementById("fCost");
         if (Cost != null) {
             Cost.innerHTML = "Food Cost: " + fCost;
         }
     }
     if (display != null && val === "catHelp") {
         display.innerHTML = "Cats: " + catIds;
-        var Cost = document.getElementById("cCost");
+        const Cost = document.getElementById("cCost");
         if (Cost != null) {
             Cost.innerHTML = "Cat Cost: " + cCost;
         }
     }
     if (display != null && val === "shelters") {
         display.innerHTML = "Shelters: " + shelters;
-        var Cost = document.getElementById("sCost");
+        const Cost = document.getElementById("sCost");
         if (Cost != null) {
             Cost.innerHTML = "Shelter Cost: " + sCost;
         }

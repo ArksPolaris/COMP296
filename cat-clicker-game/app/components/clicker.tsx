@@ -3,7 +3,7 @@
 import { funds, donation } from "./balance";
 import { clickPower as power } from "./upgrade";
 import { clickPowerUp } from "./powerups";
-export var clicks = 0;
+export let clicks = 0;
 
 function click() {
     clicks = clicks + 1;
@@ -39,7 +39,7 @@ export default function Clicker() {
 }
 
 export function updateDisplay() {
-    var click = document.getElementById("click");
+    const click = document.getElementById("click");
     if (click != null) {
         click.innerHTML = "Clicks: " + clicks;
     }
