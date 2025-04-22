@@ -6,7 +6,7 @@ import { useEffect } from "react";
 
 function useAutoSave() {
     const {unlocked} = useAchievements();
-    
+
     const autoSave = () => {
     
         const gameState = {
@@ -28,7 +28,7 @@ function useAutoSave() {
     return { autoSave };
 }
 
-function Auto() {
+export function Auto() {
     const { autoSave } = useAutoSave();
   
     useEffect(() => {
@@ -41,8 +41,6 @@ function Auto() {
   
     return null; 
   }
-
-Auto();
 
 function createCats(num: number) {
     for (let i = 0; i < num; i++) {

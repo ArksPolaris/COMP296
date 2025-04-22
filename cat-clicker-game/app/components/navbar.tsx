@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Modal from "react-modal";
 import { Food, Cat, Shelter, catIds, shelters } from "./upgrade";
-import { Load, Save } from "./save";
+import { Auto, Load, Save } from "./save";
 import { Item } from "./minigame";
 import { Stats } from "./stats";
 import { ReadoutsProvider } from "./console";

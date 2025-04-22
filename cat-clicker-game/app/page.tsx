@@ -3,10 +3,33 @@ import Image from "next/image";
 import Clicker from "./components/clicker";
 import { PowerUps } from "./components/powerups";
 import { Console, ReadoutsProvider } from "./components/console";
+import { AchievementsProvider } from "./components/achievementsContext";
+import { moneySpent, stickyBalance } from "./components/balance";
+import { catIds, shelters } from "./components/upgrade";
+import { useMemo } from "react";
 
 export default function Home() {
+
+  type Stats = {
+      moneyMade: number;
+      catsOwned: number;
+      sheltersOwned: number;
+      moneySpent: number;
+    };
+  
+    const stats: Stats = useMemo(() => {
+      return {
+        moneyMade: stickyBalance,
+        catsOwned: catIds,
+        sheltersOwned: shelters,
+        moneySpent: moneySpent,
+      };
+    }, [stickyBalance, catIds, shelters, moneySpent]);
+
+    
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <AchievementsProvider stats={stats}>
         <ReadoutsProvider>
           <Console />
         </ReadoutsProvider>
@@ -38,6 +61,7 @@ export default function Home() {
         </a>
        
       </footer>
+      </AchievementsProvider>
     </div>
   );
 }
