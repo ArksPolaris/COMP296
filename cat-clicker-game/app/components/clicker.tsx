@@ -1,36 +1,29 @@
 "use client";
 
-import { funds, useDonation } from "./balance";
-import { clickPower as power } from "./upgrade";
-import { clickPowerUp } from "./powerups";
-export let clicks = 0;
+import { useBalance } from "./contexts/balanceContext";
+import { useClick } from "./contexts/clickContext";
+import { useUpgrade } from "./contexts/upgradeContext";
+import { usePowerUp } from "./contexts/powerupsContext";
 
-function useClick() {
-    const { donate } = useDonation();
+export function Clicker() {
+    const { addFunds } = useBalance();
+    const { totalClicks, increment } = useClick();
+    const { clickPower } = useUpgrade();
 
-    const click = () => {
-        clicks = clicks + 1;
-        if (clicks%(Math.floor(Math.random() * 100) + (clicks/10)) == 0) donate();
-        
-        const eClickPower = clickPowerUp.active ? clickPowerUp.clickPowerFactor * power : power;
+    const { clickPowerActive, powerFactor } = usePowerUp();
     
-        funds(eClickPower);
-        
-        updateDisplay();
+    const handleClick = () => {
+        console.log('clicked');
+        increment();
+        if (totalClicks % (Math.floor(Math.random() * 100) + (totalClicks / 10)) == 0) addFunds(10);
+        const eClickPower = clickPowerActive ? powerFactor * clickPower : clickPower;
+        addFunds(eClickPower);
     };
-    
-    return { click };
-}
 
-export function clickUtil(x: number) {
-    funds(x);
-}
-
-export default function Clicker() {
     return (
         <button 
             className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#aaa] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            onClick={useClick().click}
+            onClick={handleClick}
         >
             <img
                 className="dark:invert"
@@ -39,14 +32,7 @@ export default function Clicker() {
                 width={20}
                 height={20}
             />
-            Star
+            Food
         </button>
     )
-}
-
-export function updateDisplay() {
-    const click = document.getElementById("click");
-    if (click != null) {
-        click.innerHTML = "Clicks: " + clicks;
-    }
 }

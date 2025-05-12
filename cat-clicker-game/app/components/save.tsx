@@ -1,12 +1,13 @@
 'use client';
-import { stickyBalance, balance, funds, moneySpent } from "./balance";
-import { useAchievements } from "./achievementsContext";
-import { clickUtil } from "./clicker";
-import { clickPower, catIds, shelters, fCost, cCost, sCost, setClickPower, setFCost, setCCost, setSCost, makeCatUtils } from "./upgrade";
+import { useBalance } from "./contexts/balanceContext";
+import { useAchievements } from "./contexts/achievementsContext";
+import { useUpgrade } from "./contexts/upgradeContext";
 import { useEffect } from "react";
 
 function useAutoSave() {
     const {unlocked} = useAchievements();
+    const { balance, moneySpent, stickyBalance } = useBalance();
+    const { clickPower, fCost, cCost, sCost, catCount, shelters } = useUpgrade();
 
     const autoSave = () => {
     
@@ -19,7 +20,7 @@ function useAutoSave() {
         fCost: fCost,
         cCost: cCost,
         sCost: sCost,
-        catIds: catIds,
+        catCount: catCount,
         unlockedAchievements: Array.from(unlocked),
     };
     
@@ -43,25 +44,10 @@ export function Auto() {
     return null; 
   }
 
-function createCats(num: number) {
-    for (let i = 0; i < num; i++) {
-        setInterval(() => {
-            clickUtil(1);
-        }, 1000);
-    }
-}
-
-function createShelters(num: number) {
-    for (let i = 0; i < num; i++) {
-        setInterval(() => {
-            makeCatUtils();
-        }, 30000) as unknown as number;
-    }
-}
-
-
 export function Save() {
     const { unlocked } = useAchievements();
+    const { balance, moneySpent, stickyBalance } = useBalance();
+    const { clickPower, fCost, cCost, sCost, catCount, shelters } = useUpgrade();
 
     function saveProgress() {
         const gameState = {
@@ -73,7 +59,7 @@ export function Save() {
             fCost: fCost,
             cCost: cCost,
             sCost: sCost,
-            catIds: catIds,
+            catCount: catCount,
             unlockedAchievements: Array.from(unlocked),
         };
         localStorage.setItem("gameState", JSON.stringify(gameState));
@@ -113,6 +99,8 @@ export function Save() {
 
 export function Load() {
     const { restoreAchievements } = useAchievements();
+    const { setBalance, setMoneySpent, setStickyBalance } = useBalance();
+    const { setClickPower, setFCost, setCCost, setSCost, setCatCount, setShelters } = useUpgrade();
 
     function loadProgress(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -125,13 +113,13 @@ export function Load() {
                 if (saveState) {
                     const gameState = JSON.parse(saveState as string);
                     
-                    funds(gameState.stickyBalance - stickyBalance);
-                    funds(gameState.balance - balance);
-                    funds(gameState.moneySpent - moneySpent);
+                    setStickyBalance(gameState.stickyBalance);
+                    setBalance(gameState.balance);
+                    setMoneySpent(gameState.moneySpent);
     
                     setClickPower(gameState.clickPower);
-                    createShelters (gameState.shelters);
-                    createCats(gameState.catIds);
+                    setShelters (gameState.shelters);
+                    setCatCount(gameState.catIds);
                 
                     setFCost(gameState.fCost);
                     setCCost(gameState.cCost);

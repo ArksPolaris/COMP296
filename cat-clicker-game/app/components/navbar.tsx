@@ -1,5 +1,4 @@
-"use client";
-
+'use client';
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { Food, Cat, Shelter } from "./upgrade";

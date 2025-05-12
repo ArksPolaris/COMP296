@@ -1,13 +1,19 @@
-import type { Metadata } from "next";
+'use client';
+import React from "react";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import "./components/navbar";
 import Navbar from "./components/navbar";
+import { AchievementsWrapper } from "./components/AchievementsWrapper";
 import { ReadoutsProvider } from "./components/console";
+import { BalanceProvider } from "./components/contexts/balanceContext";
 import { Auto } from "./components/save";
-import { AchievementsProvider } from "./components/achievementsContext";
-import { moneySpent, stickyBalance } from "./components/balance";
-import { catIds, shelters } from "./components/upgrade";
+import { UpgradeProvider } from "./components/contexts/upgradeContext";
+import { ClickProvider } from "./components/contexts/clickContext";
+import { PowerUpProvider } from "./components/contexts/powerupsContext";
+
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,12 +24,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-export const metadata: Metadata = {
-  title: "Cat Clicker Game",
-  description: "A game where you click on  to earn points",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,20 +31,6 @@ export default function RootLayout({
 }>) 
 
 {
-  type Stats = {
-    moneyMade: number;
-    catsOwned: number;
-    sheltersOwned: number;
-    moneySpent: number;
-  };
-
-  const stats: Stats = {
-      moneyMade: stickyBalance,
-      catsOwned: catIds,
-      sheltersOwned: shelters,
-      moneySpent: moneySpent,
-    };
-
 
   return (
     <html lang="en">
@@ -52,11 +38,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReadoutsProvider>
-          <AchievementsProvider stats={stats}>
-            <Navbar />
-            <Auto />
-            {children}
-          </AchievementsProvider>
+          <BalanceProvider>
+            <UpgradeProvider>
+              <AchievementsWrapper>
+                <PowerUpProvider>
+                  <ClickProvider>
+                    <Auto />
+                    <Navbar />
+                    <br />
+                    {children}
+                  </ClickProvider>
+                </PowerUpProvider>
+              </AchievementsWrapper>
+            </UpgradeProvider>
+          </BalanceProvider>
         </ReadoutsProvider>
       </body>
     </html>

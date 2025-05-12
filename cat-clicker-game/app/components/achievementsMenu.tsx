@@ -1,6 +1,6 @@
 // AchievementMenu.tsx
 import React from "react";
-import { useAchievements } from "./achievementsContext";
+import { useAchievements } from "./contexts/achievementsContext";
 
 export function AchievementMenu({ onClose }: { onClose: () => void }) {
   const { achievements, unlocked } = useAchievements();
