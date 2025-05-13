@@ -3,15 +3,18 @@ import { useBalance } from "./contexts/balanceContext";
 import { useAchievements } from "./contexts/achievementsContext";
 import { useUpgrade } from "./contexts/upgradeContext";
 import { useEffect } from "react";
+import { useClick } from "./contexts/clickContext";
 
 function useAutoSave() {
     const {unlocked} = useAchievements();
     const { balance, moneySpent, stickyBalance } = useBalance();
     const { clickPower, fCost, cCost, sCost, catCount, shelters } = useUpgrade();
+    const { totalClicks } = useClick();
 
     const autoSave = () => {
     
         const gameState = {
+        totalClicks: totalClicks,
         stickyBalance: stickyBalance,
         moneySpent: moneySpent,
         balance: balance,
@@ -48,9 +51,11 @@ export function Save() {
     const { unlocked } = useAchievements();
     const { balance, moneySpent, stickyBalance } = useBalance();
     const { clickPower, fCost, cCost, sCost, catCount, shelters } = useUpgrade();
+    const { totalClicks } = useClick();
 
     function saveProgress() {
         const gameState = {
+            totalClicks: totalClicks,
             stickyBalance: stickyBalance,
             moneySpent: moneySpent,
             balance: balance,
@@ -101,6 +106,7 @@ export function Load() {
     const { restoreAchievements } = useAchievements();
     const { setBalance, setMoneySpent, setStickyBalance } = useBalance();
     const { setClickPower, setFCost, setCCost, setSCost, setCatCount, setShelters } = useUpgrade();
+    const { setTotalClicks } = useClick();
 
     function loadProgress(event: Event) {
         const input = event.target as HTMLInputElement;
@@ -112,6 +118,8 @@ export function Load() {
                 
                 if (saveState) {
                     const gameState = JSON.parse(saveState as string);
+
+                    setTotalClicks(gameState.totalClicks);
                     
                     setStickyBalance(gameState.stickyBalance);
                     setBalance(gameState.balance);

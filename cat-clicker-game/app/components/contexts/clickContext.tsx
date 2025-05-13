@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 type ClickContextType = {
     totalClicks: number;
     increment: () => void;
+    setTotalClicks: (val: number) => void;
 };
 
 const ClickContext = createContext<ClickContextType | undefined>(undefined);
@@ -14,11 +15,14 @@ export const ClickProvider = ({ children }: { children: ReactNode }) => {
         setTotalClicks((prev) => prev + 1);
     };
 
+
+
     return (
         <ClickContext.Provider
             value={{
                 totalClicks,
                 increment,
+                setTotalClicks,
             }}
         >
             {children}
