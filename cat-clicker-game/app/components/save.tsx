@@ -127,7 +127,7 @@ export function Load() {
     
                     setClickPower(gameState.clickPower);
                     setShelters (gameState.shelters);
-                    setCatCount(gameState.catIds);
+                    setCatCount(gameState.catCount);
                 
                     setFCost(gameState.fCost);
                     setCCost(gameState.cCost);
