@@ -13,7 +13,6 @@ export function Clicker() {
     const { clickPowerActive, powerFactor } = usePowerUp();
     
     const handleClick = () => {
-        console.log('clicked');
         increment();
         if (totalClicks % (Math.floor(Math.random() * 100) + (totalClicks / 10)) == 0) addFunds(10);
         const eClickPower = clickPowerActive ? powerFactor * clickPower : clickPower;

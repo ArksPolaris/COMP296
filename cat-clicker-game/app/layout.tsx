@@ -5,12 +5,13 @@ import "./globals.css";
 import "./components/navbar";
 import Navbar from "./components/navbar";
 import { AchievementsWrapper } from "./components/AchievementsWrapper";
-import { ReadoutsProvider } from "./components/console";
+import { ReadoutsProvider } from "./components/contexts/ReadoutsContext";
 import { BalanceProvider } from "./components/contexts/balanceContext";
 import { Auto } from "./components/save";
 import { UpgradeProvider } from "./components/contexts/upgradeContext";
 import { ClickProvider } from "./components/contexts/clickContext";
 import { PowerUpProvider } from "./components/contexts/powerupsContext";
+import { AutoClickingTool } from "./components/autoClickingTool";
 
 
 
@@ -44,6 +45,7 @@ export default function RootLayout({
                 <PowerUpProvider>
                   <ClickProvider>
                     <Auto />
+                    <AutoClickingTool />
                     <Navbar />
                     <br />
                     {children}

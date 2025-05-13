@@ -5,7 +5,7 @@ import { Food, Cat, Shelter } from "./upgrade";
 import { Load, Save } from "./save";
 import { Item } from "./minigame";
 import { Stats } from "./stats";
-import { ReadoutsProvider } from "./console";
+import { ReadoutsProvider } from "./contexts/ReadoutsContext";
 import { AchievementMenu } from "./achievementsMenu";
 
 const Navbar = () => {

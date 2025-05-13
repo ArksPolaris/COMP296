@@ -1,6 +1,6 @@
 import { useBalance } from "./contexts/balanceContext";
 import { useUpgrade } from "./contexts/upgradeContext";
-import { useReadouts } from "./console";
+import { useReadouts } from "./contexts/ReadoutsContext";
 
 export function Food() {
     const { fCost, setFCost, clickPower, setClickPower } = useUpgrade();
@@ -12,7 +12,7 @@ export function Food() {
             spendFunds(fCost);
             setFCost(Math.floor(fCost * 1.1) + 5);
             setClickPower(clickPower+ 1);
-            displayMessage("You purchased better food for the cats! (Power: " + clickPower + ")");
+            displayMessage("You purchased better food for the cats! (Power: " + (clickPower + 1) +")");
         }
     }
 
@@ -109,7 +109,7 @@ export function Shelter() {
                 width={20}
                 height={20}
             />
-            Cat Helper
+            Shelter of Cats
         </button>
             <div className="flex flex-col ml-4">
                 <p id="shelters">Shelters: {shelters}</p>

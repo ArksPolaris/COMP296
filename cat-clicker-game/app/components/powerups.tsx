@@ -1,6 +1,6 @@
 import { usePowerUp, useClickPowerUp, useMegaCat } from "./contexts/powerupsContext";
 import { useBalance } from "./contexts/balanceContext";
-import { useReadouts } from "./console";
+import { useReadouts } from "./contexts/ReadoutsContext";
 
 export function PowerUps() {
     const { stickyBalance } = useBalance();
