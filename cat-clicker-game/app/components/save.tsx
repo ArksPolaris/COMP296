@@ -112,6 +112,16 @@ export function Load() {
         const input = event.target as HTMLInputElement;
     
         if (input.files && input.files[0]) {
+            const file = input.files[0];
+
+            const validExt = /\.json$/i.test(file.name);
+            const validMime = file.type === "application/json" || file.type === "";
+
+            if (!validExt || !validMime) {
+                alert("Invalid file type. Please select a .json file.");
+                return;
+            }
+
             const reader = new FileReader();
             reader.onload = function (fileEvent) {
                 const saveState = fileEvent.target?.result;
