@@ -22,16 +22,12 @@ export const BalanceProvider = ({ children }: { children: ReactNode }) => {
 
     const addFunds = (amount: number) => {
         setBalance((prev) => prev + amount);
-        if (amount > 0) {
-            setStickyBalance((prev) => prev + amount);
-        }
+        setStickyBalance((prev) => prev + amount);
     };
 
     const spendFunds = (amount: number) => {
         setBalance((prev) => prev - amount);
-        if (amount < 0) {
-            setMoneySpent((prev) => prev + Math.abs(amount));
-        }
+        setMoneySpent((prev) => prev + Math.abs(amount));
     };
 
     const addStickyFunds = (amount: number) => {
