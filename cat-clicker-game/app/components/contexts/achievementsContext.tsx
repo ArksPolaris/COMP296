@@ -1,5 +1,5 @@
 'use client';
-import React, { createContext, useContext, useState, useEffect, ReactNode, } from "react";
+import React, { createContext, useContext, useState, useEffect, ReactNode, useRef } from "react";
 
 export type Stats = {
   moneyMade: number;
@@ -129,6 +129,7 @@ export function AchievementsProvider({
   stats: Stats;
 }) {
   const [unlocked, setUnlocked] = useState<Set<string>>(new Set());
+  const prevUnlocked = useRef<Set<string>>(new Set());
 
   // Check for new achievements whenever stats change
   useEffect(() => {
@@ -146,6 +147,8 @@ export function AchievementsProvider({
         return updated;
       });
     }
+
+    prevUnlocked.current = new Set(unlocked);
   }, [stats, unlocked]);
 
   // Function to unlock achievement manually (e.g. on load)
